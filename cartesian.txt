@@ -48,5 +48,8 @@ plot(x, y)
 
 Coord = [r,Az,El];
 
+%------ Alex-----
+
+plot3D(x,y,z)
 
 end
