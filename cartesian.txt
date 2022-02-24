@@ -30,7 +30,7 @@
 
 function Coord = Cartesian_to_Spherical(x,y,z,AltitudeRef)
 
-if nargin > 3
+if nargin > 10
   r0 = AltitudeRef;
 else
   r0 = 6731009; % Earth radius in meters according to Geodetic Reference System 1980
