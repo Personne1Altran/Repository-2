@@ -41,6 +41,7 @@ Az = atan2(y,x);
 El = pi/2-acos(z./r);
 
 r = r-r0;
+rayon2 = r - r0; 
 
 Coord = [r,Az,El];
 
