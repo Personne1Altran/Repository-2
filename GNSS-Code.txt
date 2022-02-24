@@ -1,0 +1,94 @@
+%  Copyright (c) CNES  2008
+%
+%  This software is part of CelestLab, a CNES toolbox for Scilab
+%
+%  This software is governed by the CeCILL  license under French law and
+%  abiding by the rules of distribution of free software.  You can  use,
+%  modify and/ or redistribute the software under the terms of the CeCILL
+%  license as circulated by CEA, CNRS and INRIA at the following URL
+%  'http:%www.cecill.info'.
+
+function [w] = CL_cross(u,v)
+% Cross product of column vectors
+%
+% Calling Sequence
+% w = CL_cross(u,v)
+%
+% Description
+% <itemizedlist><listitem>
+% <p>Computes the cross product of column vectors (or matrices or hypermatrices considered as sets
+% of column vectors). </p>
+% <p></p>
+% <p>The matrices or hypermatrices are automatically expanded and resized: the dimensions
+% with size 1 are expanded to the maximum size between the 2 matrices (or hypermatrices). 
+% However, the sizes for the 1st dimension (number of rows) must be identical and be 
+% greater than 3 unless one of the 2 arguments is the empty matrix. </p> 
+% <p></p>
+% </listitem>
+% <listitem>
+% <p><b>Notes</b>: </p>
+% <p>- If one of the arguments is [], the result is also []. </p> 
+% </listitem>
+% </itemizedlist>
+%
+% Parameters
+% u: Matrix or hypermatrix (NxPx... or Nx1x... etc...) with N: 0 or >= 3. 
+% v: Matrix or hypermatrix (NxPx... or Nx1x... etc...) with N: 0 or >= 3.
+% w: Cross product of u and v (NxPx...)
+%
+% See also
+% CL_dot
+%
+% Authors
+% CNES - DCT/SB
+%
+% Examples
+% % u and v: matrices
+% u = [[1;0;0], [0;1;0]];
+% v = [[0;1;0], [0;0;1]];
+% w = CL_cross(u,v)
+% 
+% % u: column vector and v: matrix 
+% u = [1;0;0];
+% v = [[0;1;0], [0;0;1]];
+% w = CL_cross(u,v)
+% 
+% % u: column vector and v: hypermatrix 
+% u = [1;1;1];
+% v = rand(3, 2, 4); 
+% w = CL_cross(u,v)
+
+% Declarations:
+
+
+% Code:
+
+% Check number of rows 
+Nu = size(u,1); 
+Nv = size(v,1); 
+u_not_empty = (min(size(u)) > 0); 
+v_not_empty = (min(size(v)) > 0); 
+
+if ((u_not_empty && Nu < 3) || (v_not_empty && Nv < 3) || (u_not_empty && v_not_empty && Nu ~= Nv)) 
+  error("Invalid or inconsistent sizes (number of rows)");
+end
+
+sz = size(u); % == size(v) 
+N = sz(1); % number of rows
+
+% resize as matrices (if more than 2 dimensions)
+resize_to_mat = (size(sz, 2) > 2); 
+
+if (resize_to_mat)
+  u = matrix(u, N, -1); 
+  v = matrix(v, N, -1); 
+end
+
+I = [(2:N), 1];
+J = [(3:N), 1, 2]; 
+w = u(I,:) .* v(J,:) - u(J,:) .* v(I,:); 
+
+if (resize_to_mat)
+  w = matrix(w, sz); 
+end
+end
