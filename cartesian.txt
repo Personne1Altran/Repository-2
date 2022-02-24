@@ -50,6 +50,6 @@ Coord = [r,Az,El];
 
 %------ Alex-----
 
-plot3D(x,y,z)
+plot2D(x,y)
 
 end
